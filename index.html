@@ -46,12 +46,17 @@
         button:hover {
             background: #e07b0c;
         }
-        #result {
+        .result-section {
             margin-top: 20px;
             padding: 20px;
             background: #f0f8ff;
             border-radius: 8px;
-            display: none;
+        }
+        .prediction-section {
+            margin-top: 15px;
+            padding: 20px;
+            background: #fffaf0;
+            border-radius: 8px;
         }
         .result-item {
             margin: 10px 0;
@@ -70,9 +75,11 @@
             margin-top: 20px;
             text-align: center;
         }
-        .loading {
+        .update-time {
+            font-size: 12px;
             color: #666;
-            font-style: italic;
+            text-align: right;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -82,9 +89,18 @@
         <input type="number" id="cny" placeholder="输入人民币金额 (CNY)" min="0.01" step="0.01">
         <button onclick="calculate()">计算</button>
         
-        <div id="result">
-            <div id="calculation-result"></div>
-            <div id="prediction-result"></div>
+        <div id="result" style="display:none">
+            <div class="result-section">
+                <h3>当前兑换结果</h3>
+                <div id="calculation-result"></div>
+            </div>
+            
+            <div class="prediction-section">
+                <h3>如果你不花这笔钱，存下来 (按照年增长50%计算)</h3>
+                <div id="prediction-result"></div>
+            </div>
+            
+            <div class="update-time" id="update-time"></div>
         </div>
         
         <div class="disclaimer">
@@ -110,6 +126,20 @@
             return amount >= 0.01 ? amount.toFixed(4) + " BTC" : amount.toFixed(8) + " BTC";
         }
 
+        // 获取当前时间
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }).replace(/\//g, '-');
+        }
+
         // 主计算函数
         async function calculate() {
             const cnyInput = document.getElementById('cny');
@@ -122,6 +152,7 @@
 
             const resultDiv = document.getElementById('calculation-result');
             const predictionDiv = document.getElementById('prediction-result');
+            const updateTimeDiv = document.getElementById('update-time');
             
             // 清空之前的结果
             resultDiv.innerHTML = '<div class="loading">正在获取数据...</div>';
@@ -130,6 +161,9 @@
             
             // 获取价格
             const { price, error } = await getBTCPrice();
+            
+            // 更新时间
+            updateTimeDiv.textContent = '数据更新时间: ' + getCurrentTime();
             
             if (error) {
                 resultDiv.innerHTML = `<div class="error">${error}</div>`;
@@ -143,7 +177,6 @@
             
             // 显示兑换结果
             resultDiv.innerHTML = `
-                <div class="result-item"><strong>当前兑换结果：</strong></div>
                 <div class="result-item">¥${cnyAmount.toLocaleString('zh-CN')} ≈ ${formatBTC(btcAmount)}</div>
                 <div class="result-item">≈ ${satAmount.toLocaleString('zh-CN')} sat</div>
                 <div class="result-item">当前比特币价格: ¥${price.toLocaleString('zh-CN')}</div>
@@ -151,7 +184,6 @@
             
             // 显示预测
             predictionDiv.innerHTML = `
-                <div class="result-item" style="margin-top: 20px;"><strong>如果存下来（年增长50%）：</strong></div>
                 ${Array.from({length: 5}, (_, i) => {
                     const year = i + 1;
                     const futureValue = (btcAmount * Math.pow(1.5, year) * price).toLocaleString('zh-CN', {
