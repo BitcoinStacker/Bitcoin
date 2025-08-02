@@ -14,82 +14,96 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow-lg">
-                    <div class="card-header">
+                    <div class="card-header bg-success text-white">
                         <h2 class="text-center"><i class="fas fa-leaf me-2"></i>Bitcoin DCA Dashboard</h2>
                     </div>
                     <div class="card-body">
                         <div class="mb-4">
-                            <label for="baseInvestment" class="form-label">Base DCA Amount (USDT)</label>
+                            <label for="baseInvestment" class="form-label">Base Investment Amount (USD)</label>
                             <input type="number" class="form-control" id="baseInvestment" value="100" min="1">
                         </div>
                         
-                        <button id="calculateBtn" class="btn btn-action w-100 mb-4">
-                            <i class="fas fa-calculator me-2"></i>Calculate DCA Recommendation
+                        <button id="calculateBtn" class="btn btn-success w-100 mb-4 calculate-button">
+                            <i class="fas fa-calculator me-2"></i>Calculate Recommendation
                         </button>
                         
-                        <div class="spinner-border d-none" id="loadingSpinner" role="status">
+                        <div class="spinner-border text-success d-none" id="loadingSpinner" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                         
-                        <div id="results" class="d-none">
-                            <div class="row">
+                        <div id="results" class="d-none mt-3">
+                            <div class="row g-3">
                                 <div class="col-md-6">
-                                    <div class="card mb-3">
+                                    <div class="card h-100 border-success">
                                         <div class="card-body">
-                                            <h5 class="card-title"><i class="fas fa-chart-line me-2"></i>365-Day DCA Cost</h5>
-                                            <p class="card-text display-6" id="dcaCost">-</p>
+                                            <h5 class="card-title text-success">
+                                                <i class="fas fa-chart-line me-2"></i>365-Day Avg Price
+                                            </h5>
+                                            <p class="card-text display-6 text-dark" id="dcaCost">-</p>
+                                            <small class="text-muted">Moving average of last year</small>
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-6">
-                                    <div class="card mb-3">
+                                    <div class="card h-100 border-success">
                                         <div class="card-body">
-                                            <h5 class="card-title"><i class="fas fa-seedling me-2"></i>Growth Estimate</h5>
-                                            <p class="card-text display-6" id="growthEstimate">-</p>
+                                            <h5 class="card-title text-success">
+                                                <i class="fas fa-seedling me-2"></i>Growth Estimate
+                                            </h5>
+                                            <p class="card-text display-6 text-dark" id="growthEstimate">-</p>
+                                            <small class="text-muted">Based on coin age model</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card h-100 border-success">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-success">
+                                                <i class="fab fa-bitcoin me-2"></i>Current BTC Price
+                                            </h5>
+                                            <p class="card-text display-6 text-dark" id="btcPrice">-</p>
+                                            <small class="text-muted">Live market price</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card h-100 border-success">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-success">
+                                                <i class="fas fa-tachometer-alt me-2"></i>AHR999 Index
+                                            </h5>
+                                            <p class="card-text display-6 text-dark" id="ahr999">-</p>
+                                            <small class="text-muted">Based on 365-Day Avg Price</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><i class="fab fa-bitcoin me-2"></i>Current BTC Price</h5>
-                                            <p class="card-text display-6" id="btcPrice">-</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><i class="fas fa-tachometer-alt me-2"></i>AHR999 Index</h5>
-                                            <p class="card-text display-6" id="ahr999">-</p>
-                                        </div>
-                                    </div>
+                            <div class="card mt-4 border-success bg-light-green">
+                                <div class="card-body text-center py-4">
+                                    <h3 class="card-title text-success mb-3">
+                                        <i class="fas fa-lightbulb me-2"></i>Today's Recommended Investment
+                                    </h3>
+                                    <p class="display-4 fw-bold text-success mb-2" id="investmentAmount">-</p>
+                                    <p class="text-muted mb-0">Adjusted for current market valuation</p>
                                 </div>
                             </div>
                             
-                            <div class="card recommendation-card mt-4">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title"><i class="fas fa-lightbulb me-2"></i>Today's DCA Recommendation</h4>
-                                    <p class="card-text display-4 fw-bold" id="investmentAmount">-</p>
-                                    <p class="text-muted">Based on current market conditions</p>
-                                </div>
-                            </div>
-                            
-                            <div class="alert alert-info mt-3">
-                                <h5><i class="fas fa-info-circle me-2"></i>How to interpret the AHR999 index:</h5>
-                                <ul class="list-unstyled">
-                                    <li class="text-success"><strong>Below 0.45:</strong> Bitcoin is severely undervalued (optimal buying)</li>
-                                    <li class="text-primary"><strong>0.45-1.2:</strong> Fair value range (normal accumulation)</li>
-                                    <li class="text-warning"><strong>1.2-5:</strong> Potentially overvalued (reduce buying)</li>
-                                    <li class="text-danger"><strong>Above 5:</strong> Consider taking profits</li>
+                            <div class="alert alert-light-green mt-4 border-success">
+                                <h5 class="text-success"><i class="fas fa-info-circle me-2"></i>AHR999 Index Guide</h5>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="text-success mb-2"><strong>＜0.45:</strong> Severely undervalued (optimal buying)</li>
+                                    <li class="text-primary mb-2"><strong>0.45-1.2:</strong> Fair value (normal accumulation)</li>
+                                    <li class="text-warning mb-2"><strong>1.2-5:</strong> Potentially overvalued (reduce buying)</li>
+                                    <li class="text-danger"><strong>＞5:</strong> Consider taking profits</li>
                                 </ul>
                             </div>
                         </div>
                         
-                        <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+                        <div id="errorAlert" class="alert alert-danger d-none mt-3" role="alert"></div>
                     </div>
                 </div>
             </div>

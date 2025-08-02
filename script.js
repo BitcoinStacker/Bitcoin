@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     updateTimestamp();
     elements.calculateBtn.addEventListener('click', calculateDCA);
-    elements.calculateBtn.click(); // Initial calculation
 
     async function calculateDCA() {
         resetUI();
@@ -31,9 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
             showResults();
         } catch (error) {
             handleError(error);
+        } finally {
+            elements.loadingSpinner.classList.add('d-none');
         }
     }
 
+    // Helper functions
     function updateTimestamp() {
         elements.lastUpdated.textContent = new Date().toLocaleString('en-US', {
             year: 'numeric',
@@ -66,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return [price, history];
         } catch (error) {
             console.error('Failed to fetch data:', error);
-            throw new Error('Market data unavailable. Trying fallback...');
+            throw new Error('Market data unavailable. Please try again later.');
         }
     }
 
@@ -91,8 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Fallback value if all APIs fail
-        return 30000;
+        throw new Error('All price APIs are currently unavailable. Please try again later.');
     }
 
     async function getHistoricalBTCData() {
@@ -100,15 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch(
                 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365'
             );
+            if (!response.ok) throw new Error('API response not OK');
             const data = await response.json();
             return data.prices.map(item => item[1]);
         } catch (error) {
-            console.warn('Using fallback historical data');
-            // Generate synthetic data
-            const basePrice = await getCurrentBTCPrice();
-            return Array.from({length: 365}, (_, i) => 
-                basePrice * (0.9 + 0.2 * Math.sin(i / 30))
-            );
+            console.warn('Historical data API failed:', error);
+            throw new Error('Could not load historical data. Please try again later.');
         }
     }
 
@@ -117,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const coinAge = calculateCoinAge();
         const growthEstimate = 10 ** (5.84 * Math.log10(coinAge) - 17.01);
         const ahr999 = (currentPrice / dcaCost) * (currentPrice / growthEstimate);
-        const recommendedInvestment = baseAmount / Math.max(ahr999, 0.1);
+        const recommendedInvestment = (baseAmount / Math.max(ahr999, 0.1)).toFixed(2);
         
         return {
             currentPrice,
@@ -143,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.growthEstimate.textContent = `$${metrics.growthEstimate.toFixed(2)}`;
         elements.btcPrice.textContent = `$${metrics.currentPrice.toFixed(2)}`;
         elements.ahr999.textContent = metrics.ahr999.toFixed(2);
-        elements.investmentAmount.textContent = `$${metrics.recommendedInvestment.toFixed(2)}`;
+        elements.investmentAmount.textContent = `$${metrics.recommendedInvestment}`;
         
         updateAhr999Color(metrics.ahr999);
     }
@@ -165,13 +163,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showResults() {
-        elements.loadingSpinner.classList.add('d-none');
         elements.resultsSection.classList.remove('d-none');
     }
 
     function handleError(error) {
         console.error('Error:', error);
-        elements.loadingSpinner.classList.add('d-none');
         elements.errorAlert.textContent = error.message;
         elements.errorAlert.classList.remove('d-none');
     }

@@ -2,10 +2,9 @@
 :root {
     --primary-green: #2e7d32;
     --dark-green: #1b5e20;
-    --light-green: #d4edda;
-    --mint-green: #e8f5e9;
-    --leaf-green: #4caf50;
+    --light-green: #e8f5e9;
     --lime-green: #8bc34a;
+    --mint-green: #d4edda;
 }
 
 .green-theme {
@@ -17,11 +16,12 @@
     border-radius: 12px;
     border: none;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.15);
 }
 
 .card-header {
@@ -32,66 +32,59 @@
 }
 
 /* Buttons */
-.btn-action {
-    background-color: var(--leaf-green);
+.calculate-button {
+    background-color: var(--primary-green);
     border: none;
     padding: 12px;
     font-weight: 500;
     transition: all 0.3s;
 }
 
-.btn-action:hover {
+.calculate-button:hover {
     background-color: var(--dark-green);
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
 }
 
 /* Results Display */
 .display-6 {
-    color: var(--primary-green);
     font-weight: 700;
+    color: #343a40;
 }
 
-.recommendation-card {
-    background-color: var(--mint-green);
-    border-left: 4px solid var(--leaf-green);
+.bg-light-green {
+    background-color: var(--light-green);
 }
 
-.recommendation-card .display-4 {
-    color: var(--dark-green);
+.border-success {
+    border: 1px solid var(--primary-green) !important;
 }
 
-/* AHR999 Color Coding */
-#ahr999.text-success { color: var(--primary-green); }
-#ahr999.text-primary { color: var(--leaf-green); }
-#ahr999.text-warning { color: var(--lime-green); }
-#ahr999.text-danger { color: #ff9800; }
+.alert-light-green {
+    background-color: var(--light-green);
+    border-color: var(--primary-green);
+}
 
 /* Loading Spinner */
 .spinner-border {
-    color: var(--leaf-green);
+    color: var(--primary-green);
     width: 3rem;
     height: 3rem;
     margin: 1rem auto;
     display: block;
 }
 
+/* Color Coding */
+.text-success { color: var(--primary-green) !important; }
+.text-primary { color: var(--lime-green) !important; }
+.text-warning { color: #ffc107 !important; }
+.text-danger { color: #dc3545 !important; }
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .display-6 {
         font-size: 1.5rem;
     }
-    .recommendation-card .display-4 {
+    .card-body .display-4 {
         font-size: 2rem;
     }
-}
-
-/* Animation for loading */
-@keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
-}
-
-.loading-text {
-    animation: pulse 1.5s infinite;
 }
