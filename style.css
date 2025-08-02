@@ -1,0 +1,97 @@
+/* Green Theme Variables */
+:root {
+    --primary-green: #2e7d32;
+    --dark-green: #1b5e20;
+    --light-green: #d4edda;
+    --mint-green: #e8f5e9;
+    --leaf-green: #4caf50;
+    --lime-green: #8bc34a;
+}
+
+.green-theme {
+    background-color: #f8fff8;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: var(--primary-green) !important;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Buttons */
+.btn-action {
+    background-color: var(--leaf-green);
+    border: none;
+    padding: 12px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-action:hover {
+    background-color: var(--dark-green);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+/* Results Display */
+.display-6 {
+    color: var(--primary-green);
+    font-weight: 700;
+}
+
+.recommendation-card {
+    background-color: var(--mint-green);
+    border-left: 4px solid var(--leaf-green);
+}
+
+.recommendation-card .display-4 {
+    color: var(--dark-green);
+}
+
+/* AHR999 Color Coding */
+#ahr999.text-success { color: var(--primary-green); }
+#ahr999.text-primary { color: var(--leaf-green); }
+#ahr999.text-warning { color: var(--lime-green); }
+#ahr999.text-danger { color: #ff9800; }
+
+/* Loading Spinner */
+.spinner-border {
+    color: var(--leaf-green);
+    width: 3rem;
+    height: 3rem;
+    margin: 1rem auto;
+    display: block;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .display-6 {
+        font-size: 1.5rem;
+    }
+    .recommendation-card .display-4 {
+        font-size: 2rem;
+    }
+}
+
+/* Animation for loading */
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.loading-text {
+    animation: pulse 1.5s infinite;
+}
