@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #27ae60; /* Green theme color */
+            --primary: #27ae60;
             --primary-dark: #219653;
             --primary-light: #2ecc71;
             --secondary: #1a1a2e;
@@ -16,12 +16,12 @@
             --card-bg: #ffffff;
             --text: #333333;
             --text-light: #666666;
-            --success: #27ae60; /* Green for success elements */
+            --success: #27ae60;
             --error: #e74c3c;
             --warning: #f39c12;
             --border: #e0e0e0;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --bitcoin-gradient: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); /* Green gradient */
+            --bitcoin-gradient: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
         }
 
         .dark-mode {
@@ -602,7 +602,10 @@
                 errorMessage: "Failed to fetch Bitcoin price, please try again later",
                 ifSaved: "If you save this amount in Bitcoin",
                 dataUpdated: "Data updated at",
-                growthRateTabs: ["Historical (50%)", "Conservative (40%)", "Bearish (30%)"]
+                growthRateTabs: ["Historical (50%)", "Conservative (40%)", "Bearish (30%)"],
+                fiatAmount: "Fiat Amount",
+                bitcoinAmount: "Bitcoin Amount",
+                satoshi: "Satoshi"
             },
             zh: {
                 title: "币本位计算器",
@@ -619,7 +622,10 @@
                 errorMessage: "获取比特币价格失败，请稍后再试",
                 ifSaved: "如果你把这笔钱存成比特币",
                 dataUpdated: "数据更新时间",
-                growthRateTabs: ["历史数据 (50%)", "保守估计 (40%)", "悲观估计 (30%)"]
+                growthRateTabs: ["历史数据 (50%)", "保守估计 (40%)", "悲观估计 (30%)"],
+                fiatAmount: "法币金额",
+                bitcoinAmount: "比特币数量",
+                satoshi: "聪"
             },
             es: {
                 title: "CALCULADORA BITCOIN",
@@ -636,7 +642,10 @@
                 errorMessage: "Error al obtener el precio de Bitcoin, intente nuevamente más tarde",
                 ifSaved: "Si ahorras esta cantidad en Bitcoin",
                 dataUpdated: "Datos actualizados el",
-                growthRateTabs: ["Histórico (50%)", "Conservador (40%)", "Bajista (30%)"]
+                growthRateTabs: ["Histórico (50%)", "Conservador (40%)", "Bajista (30%)"],
+                fiatAmount: "Monto Fiat",
+                bitcoinAmount: "Cantidad Bitcoin",
+                satoshi: "Satoshi"
             },
             ja: {
                 title: "ビットコイン計算機",
@@ -653,7 +662,10 @@
                 errorMessage: "ビットコイン価格の取得に失敗しました。後ほど再試行してください",
                 ifSaved: "この金額をビットコインで貯蓄した場合",
                 dataUpdated: "データ更新日時",
-                growthRateTabs: ["歴史的 (50%)", "保守的 (40%)", "弱気 (30%)"]
+                growthRateTabs: ["歴史的 (50%)", "保守的 (40%)", "弱気 (30%)"],
+                fiatAmount: "法定通貨額",
+                bitcoinAmount: "ビットコイン数量",
+                satoshi: "サトシ"
             },
             ko: {
                 title: "비트코인 계산기",
@@ -670,7 +682,10 @@
                 errorMessage: "비트코인 가격을 가져오지 못했습니다. 나중에 다시 시도해 주세요",
                 ifSaved: "이 금액을 비트코인으로 저축할 경우",
                 dataUpdated: "데이터 업데이트 시간",
-                growthRateTabs: ["역사적 (50%)", "보수적 (40%)", "약세 (30%)"]
+                growthRateTabs: ["역사적 (50%)", "보수적 (40%)", "약세 (30%)"],
+                fiatAmount: "법정화폐 금액",
+                bitcoinAmount: "비트코인 수량",
+                satoshi: "사토시"
             }
         };
 
@@ -941,6 +956,18 @@
             predictionResult.innerHTML = predictionHTML;
         }
 
+        // Update result labels based on current language
+        function updateResultLabels() {
+            const t = translations[currentLanguage];
+            const labels = document.querySelectorAll('.result-label');
+            
+            if (labels.length >= 3) {
+                labels[0].textContent = t.fiatAmount;
+                labels[1].textContent = t.bitcoinAmount;
+                labels[2].textContent = t.satoshi;
+            }
+        }
+
         // Main calculation function
         async function calculate() {
             const amount = parseFloat(amountInput.value);
@@ -975,15 +1002,15 @@
             // Display current conversion results
             currentResult.innerHTML = `
                 <div class="result-item animate-result">
-                    <span class="result-label">Fiat Amount</span>
+                    <span class="result-label">${t.fiatAmount}</span>
                     <span class="result-value">${formatCurrency(amount)}</span>
                 </div>
                 <div class="result-item animate-result" style="animation-delay: 0.1s">
-                    <span class="result-label">Bitcoin Amount</span>
+                    <span class="result-label">${t.bitcoinAmount}</span>
                     <span class="result-value btc-value">${formatBTC(btcAmount)}</span>
                 </div>
                 <div class="result-item animate-result" style="animation-delay: 0.2s">
-                    <span class="result-label">Satoshi</span>
+                    <span class="result-label">${t.satoshi}</span>
                     <span class="result-value btc-value">${satAmount.toLocaleString()} sat</span>
                 </div>
                 <div class="result-item animate-result" style="animation-delay: 0.3s">
