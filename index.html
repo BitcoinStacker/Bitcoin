@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BITCOIN STANDARD CALCULATOR</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -46,6 +46,7 @@
             margin: 0;
             padding: 0;
             transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -54,27 +55,30 @@
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            touch-action: manipulation;
         }
 
         .container {
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
+            padding: 0 10px;
         }
 
         .calculator {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: 12px;
+            padding: 20px;
             box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
             border: 1px solid var(--border);
+            width: 100%;
         }
 
         .calculator::before {
@@ -83,29 +87,30 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 6px;
+            height: 5px;
             background: var(--bitcoin-gradient);
         }
 
         .main-title {
             font-family: 'Orbitron', sans-serif;
             color: var(--primary);
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(39, 174, 96, 0.2);
             margin: 0 0 5px 0;
             text-align: center;
             text-transform: uppercase;
+            word-break: break-word;
         }
 
         .subtitle {
             font-family: 'Orbitron', sans-serif;
             color: var(--text-light);
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
-            letter-spacing: 1px;
-            margin: 0 0 25px 0;
+            letter-spacing: 0.5px;
+            margin: 0 0 15px 0;
             text-align: center;
             text-transform: uppercase;
         }
@@ -114,13 +119,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .settings-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+        .language-selector {
+            min-width: 100px;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .language-selector select {
+            width: 100%;
+            padding: 8px 25px 8px 10px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            color: var(--text);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+            cursor: pointer;
         }
 
         .theme-toggle {
@@ -135,10 +158,11 @@
             align-items: center;
             padding: 0 5px;
             justify-content: space-between;
+            flex-shrink: 0;
         }
 
         .theme-toggle i {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--text-light);
         }
 
@@ -157,16 +181,16 @@
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             position: relative;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 500;
             color: var(--text-light);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .input-wrapper {
@@ -177,10 +201,10 @@
 
         input {
             width: 100%;
-            padding: 15px 15px 15px 45px;
+            padding: 12px 12px 12px 38px;
             border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 14px;
             background: var(--card-bg);
             color: var(--text);
             font-weight: 500;
@@ -195,24 +219,24 @@
 
         .input-icon {
             position: absolute;
-            left: 15px;
+            left: 12px;
             color: var(--primary);
-            font-size: 18px;
+            font-size: 16px;
         }
 
         select {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 14px;
             background: var(--card-bg);
             color: var(--text);
             appearance: none;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 15px;
+            background-position: right 12px center;
+            background-size: 14px;
             cursor: pointer;
         }
 
@@ -224,25 +248,25 @@
 
         button {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: var(--bitcoin-gradient);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             font-family: 'Orbitron', sans-serif;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+            box-shadow: 0 6px 16px rgba(39, 174, 96, 0.4);
         }
 
         button:active {
@@ -250,41 +274,41 @@
         }
 
         .result-container {
-            margin-top: 30px;
+            margin-top: 20px;
             display: none;
         }
 
         .result-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
             border: 1px solid var(--border);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .dark-mode .result-card {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .result-title {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .result-title i {
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .result-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px dashed var(--border);
         }
 
@@ -294,47 +318,49 @@
 
         .result-label {
             color: var(--text-light);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .result-value {
             font-weight: 600;
             text-align: right;
+            font-size: 13px;
         }
 
         .btc-value {
             color: var(--primary);
             font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .growth-rate-tabs {
             display: flex;
-            justify-content: space-between; /* Distribute space evenly */
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             border-bottom: 1px solid var(--border);
+            gap: 5px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 3px;
+        }
+
+        .growth-rate-tabs::-webkit-scrollbar {
+            display: none;
         }
 
         .growth-rate-tab {
-            padding: 8px 5px; /* Reduced padding */
+            padding: 6px 8px;
             cursor: pointer;
             font-weight: 500;
             border-bottom: 3px solid transparent;
             transition: all 0.2s;
-            font-size: 12px;
+            font-size: 11px;
             white-space: nowrap;
             text-align: center;
-            flex: 1; /* Each tab takes equal width */
-            min-width: 0; /* Allows text truncation if needed */
+            flex: 1;
+            min-width: 0;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-        
-        @media (min-width: 400px) {
-            .growth-rate-tab {
-                padding: 8px 10px;
-                font-size: 13px;
-            }
         }
 
         .growth-rate-tab.active {
@@ -348,58 +374,52 @@
 
         .prediction-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        @media (max-width: 500px) {
-            .prediction-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
         }
 
         .prediction-card {
             background: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 10px;
             border: 1px solid var(--border);
             text-align: center;
         }
 
         .prediction-year {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--text-light);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .prediction-btc {
             font-family: 'Orbitron', sans-serif;
             color: var(--primary);
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .prediction-fiat {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--text);
         }
 
         .update-time {
-            font-size: 12px;
+            font-size: 10px;
             color: var(--text-light);
             text-align: right;
-            margin-top: 10px;
+            margin-top: 8px;
             opacity: 0.8;
         }
 
         .disclaimer {
-            font-size: 12px;
+            font-size: 10px;
             color: var(--text-light);
-            margin-top: 25px;
+            margin-top: 15px;
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.4;
             opacity: 0.7;
         }
 
@@ -408,22 +428,22 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 20px;
         }
 
         .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(39, 174, 96, 0.2);
-            border-top: 4px solid var(--primary);
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(39, 174, 96, 0.2);
+            border-top: 3px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .loading-text {
             color: var(--text-light);
-            font-size: 14px;
+            font-size: 12px;
         }
 
         @keyframes spin {
@@ -434,8 +454,9 @@
         .error-message {
             color: var(--error);
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             font-weight: 500;
+            font-size: 13px;
         }
 
         .animate-result {
@@ -445,7 +466,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(15px);
             }
             to {
                 opacity: 1;
@@ -453,16 +474,32 @@
             }
         }
 
-        .language-selector {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 15px;
-        }
-
-        .language-selector select {
-            width: auto;
-            padding: 8px 12px;
-            font-size: 14px;
+        /* iPhone 5/SE and smaller */
+        @media (max-width: 320px) {
+            .calculator {
+                padding: 15px;
+            }
+            
+            .main-title {
+                font-size: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+            }
+            
+            .language-selector, .theme-toggle {
+                width: 100%;
+            }
+            
+            .theme-toggle {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .prediction-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -494,7 +531,7 @@
                 <label for="amount" id="amountLabel">Enter Amount</label>
                 <div class="input-wrapper">
                     <i class="fas fa-money-bill-wave input-icon"></i>
-                    <input type="number" id="amount" placeholder="e.g. 10000" min="0.01" step="0.01">
+                    <input type="number" id="amount" placeholder="e.g. 10000" min="0.01" step="0.01" inputmode="decimal">
                 </div>
             </div>
 
@@ -529,9 +566,9 @@
                         <span id="predictionTitle">Bitcoin Savings Projection</span>
                     </div>
                     <div class="growth-rate-tabs" id="growthRateTabs">
-                        <div class="growth-rate-tab active" data-rate="50">Historical (50%)</div>
-                        <div class="growth-rate-tab" data-rate="40">Conservative (40%)</div>
-                        <div class="growth-rate-tab" data-rate="30">Bearish (30%)</div>
+                        <div class="growth-rate-tab active" data-rate="50">Hist (50%)</div>
+                        <div class="growth-rate-tab" data-rate="40">Cons (40%)</div>
+                        <div class="growth-rate-tab" data-rate="30">Bear (30%)</div>
                     </div>
                     <div id="predictionResult" class="prediction-grid"></div>
                 </div>
@@ -637,7 +674,7 @@
                 errorMessage: "获取比特币价格失败，请稍后再试",
                 ifSaved: "如果你把这笔钱存成比特币",
                 dataUpdated: "数据更新时间",
-                growthRateTabs: ["历史数据 (50%)", "保守估计 (40%)", "悲观估计 (30%)"],
+                growthRateTabs: ["历史 (50%)", "保守 (40%)", "悲观 (30%)"],
                 fiatAmount: "法币金额",
                 bitcoinAmount: "比特币数量",
                 satoshi: "聪"
@@ -657,7 +694,7 @@
                 errorMessage: "Error al obtener el precio de Bitcoin, intente nuevamente más tarde",
                 ifSaved: "Si ahorras esta cantidad en Bitcoin",
                 dataUpdated: "Datos actualizados el",
-                growthRateTabs: ["Histórico (50%)", "Conservador (40%)", "Bajista (30%)"],
+                growthRateTabs: ["Hist (50%)", "Cons (40%)", "Baj (30%)"],
                 fiatAmount: "Monto Fiat",
                 bitcoinAmount: "Cantidad Bitcoin",
                 satoshi: "Satoshi"
@@ -677,7 +714,7 @@
                 errorMessage: "ビットコイン価格の取得に失敗しました。後ほど再試行してください",
                 ifSaved: "この金額をビットコインで貯蓄した場合",
                 dataUpdated: "データ更新日時",
-                growthRateTabs: ["歴史的 (50%)", "保守的 (40%)", "弱気 (30%)"],
+                growthRateTabs: ["歴史 (50%)", "保守 (40%)", "弱気 (30%)"],
                 fiatAmount: "法定通貨額",
                 bitcoinAmount: "ビットコイン数量",
                 satoshi: "サトシ"
@@ -697,7 +734,7 @@
                 errorMessage: "비트코인 가격을 가져오지 못했습니다. 나중에 다시 시도해 주세요",
                 ifSaved: "이 금액을 비트코인으로 저축할 경우",
                 dataUpdated: "데이터 업데이트 시간",
-                growthRateTabs: ["역사적 (50%)", "보수적 (40%)", "약세 (30%)"],
+                growthRateTabs: ["역사 (50%)", "보수 (40%)", "약세 (30%)"],
                 fiatAmount: "법정화폐 금액",
                 bitcoinAmount: "비트코인 수량",
                 satoshi: "사토시"
@@ -754,6 +791,22 @@
             
             // Update UI with current language
             updateUIText();
+            
+            // Prevent zooming on input focus on mobile
+            preventZoomOnFocus();
+        }
+
+        // Prevent zooming on input focus on mobile devices
+        function preventZoomOnFocus() {
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                document.addEventListener('focusin', function() {
+                    setTimeout(function() {
+                        window.scrollTo(0, 0);
+                        document.body.style.transform = 'scale(1)';
+                        document.body.style.transformOrigin = 'top center';
+                    }, 0);
+                });
+            }
         }
 
         // Load settings from localStorage
@@ -1039,6 +1092,11 @@
             
             // Show results container
             resultContainer.style.display = 'block';
+            
+            // Scroll to results
+            setTimeout(() => {
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
         }
 
         // Initialize the app when DOM is loaded
