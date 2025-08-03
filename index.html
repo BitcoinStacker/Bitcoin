@@ -310,16 +310,31 @@
 
         .growth-rate-tabs {
             display: flex;
+            justify-content: space-between; /* Distribute space evenly */
             margin-bottom: 15px;
             border-bottom: 1px solid var(--border);
         }
 
         .growth-rate-tab {
-            padding: 8px 15px;
+            padding: 8px 5px; /* Reduced padding */
             cursor: pointer;
             font-weight: 500;
             border-bottom: 3px solid transparent;
             transition: all 0.2s;
+            font-size: 12px;
+            white-space: nowrap;
+            text-align: center;
+            flex: 1; /* Each tab takes equal width */
+            min-width: 0; /* Allows text truncation if needed */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        @media (min-width: 400px) {
+            .growth-rate-tab {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
         }
 
         .growth-rate-tab.active {
@@ -602,7 +617,7 @@
                 errorMessage: "Failed to fetch Bitcoin price, please try again later",
                 ifSaved: "If you save this amount in Bitcoin",
                 dataUpdated: "Data updated at",
-                growthRateTabs: ["Historical (50%)", "Conservative (40%)", "Bearish (30%)"],
+                growthRateTabs: ["Hist (50%)", "Cons (40%)", "Bear (30%)"],
                 fiatAmount: "Fiat Amount",
                 bitcoinAmount: "Bitcoin Amount",
                 satoshi: "Satoshi"
